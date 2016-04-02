@@ -8,5 +8,6 @@
         android:key="locate_keyword"
         android:title="@string/keyword_title"
         android:dialogTitle="@string/keyword_title"
-        android:dialogMessage="@string/keyword_summary"/>
+        android:dialogMessage="@string/keyword_summary"
+        android:defaultValue="findme"/>
 </PreferenceScreen>

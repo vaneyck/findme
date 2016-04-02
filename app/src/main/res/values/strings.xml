@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FindMe</string>
     <string name="about_title">About FindMe</string>
-    <string name="about_summary">FindMe allows anyone to locate their phone remotely via SMS. FindMe retrieves the phone\'s GPS coordinates and replies with those coordinates to whomever requests for them via sending in an SMS with the specified keyword.</string>
+    <string name="about_summary">FindMe allows anyone to locate their phone remotely via SMS. FindMe retrieves the phone\'s GPS coordinates and replies with those coordinates to whomever requests for them. Coordinate requests is done by sending in an SMS with the specified keyword.</string>
     <string name="keyword_title">Set a keyword</string>
-    <string name="keyword_summary">This keyword triggers a request for the phone\'s GPS coordinates. Should be something unique e.g 5467, wr23dv</string>
+    <string name="keyword_summary">This keyword triggers a request for the phone\'s GPS coordinates. This should be something unique e.g 5467, wr23dv</string>
 </resources>
