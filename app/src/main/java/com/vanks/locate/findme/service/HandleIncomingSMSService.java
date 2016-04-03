@@ -1,10 +1,11 @@
 package com.vanks.locate.findme.service;
 
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
@@ -14,6 +15,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.vanks.locate.findme.constant.ExtraUtil;
+import com.vanks.locate.findme.receiver.LocationReceiver;
 
 public class HandleIncomingSMSService extends IntentService implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -23,6 +25,8 @@ public class HandleIncomingSMSService extends IntentService implements
     }
 
     GoogleApiClient googleApiClient;
+    static LocationManager locationManager;
+    static PendingIntent locationIntent;
     private String TAG = "HandleIncomingSMSService";
     private String phoneNumber;
 
@@ -42,15 +46,14 @@ public class HandleIncomingSMSService extends IntentService implements
     @Override
     public void onConnected(Bundle bundle) {
         Log.i(TAG, "Connected to GoogleApiClient");
-        try{
-            Location lastLocation = LocationServices.FusedLocationApi
-                    .getLastLocation(googleApiClient);
-            if (lastLocation != null) {
-                double latitude = lastLocation.getLatitude();
-                double longitude = lastLocation.getLongitude();
-                sendCoordinatesAsSMS(latitude, longitude);
-            }
-            googleApiClient.disconnect();
+        try {
+            Intent intent = new Intent(this, LocationReceiver.class);
+            intent.putExtra(ExtraUtil.ADDRESS, phoneNumber);
+            locationIntent = PendingIntent.getBroadcast(getApplicationContext(),
+                    14872, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationIntent);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationIntent);
         } catch (SecurityException se) {
             Log.e(TAG, se.toString());
         }
@@ -76,15 +79,12 @@ public class HandleIncomingSMSService extends IntentService implements
         }
     }
 
-    private void sendCoordinatesAsSMS (double latitude, double longitude) {
-        SmsManager smsManager = SmsManager.getDefault();
-        String message = latitude + "," + longitude;
-        Log.i(TAG, "Replying to " + phoneNumber + " with GPS coordinates " + message);
-        smsManager.sendTextMessage(phoneNumber, null, message, null, null);
-    }
-
     private String getKeyword (Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString("locate_keyword", "findme");
+    }
+
+    public static void stopLocationUpdates () {
+        locationManager.removeUpdates(locationIntent);
     }
 }
