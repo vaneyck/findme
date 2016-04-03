@@ -3,8 +3,10 @@ package com.vanks.locate.findme.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.vanks.locate.findme.constant.ExtraUtil;
@@ -20,7 +22,6 @@ public class LocationReceiver extends BroadcastReceiver {
     String TAG = "LocationReceiver";
     static Location currentLocation;
     static long lastLocationUpdate;
-    int locationWaitThreshold = 30000;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -37,10 +38,17 @@ public class LocationReceiver extends BroadcastReceiver {
         }
         long millisecondsSinceLastUpdate = new Date().getTime() - lastLocationUpdate;
         Log.i(TAG, "milliseconds since last location update " + millisecondsSinceLastUpdate);
-        if(millisecondsSinceLastUpdate > locationWaitThreshold ||
+        if(millisecondsSinceLastUpdate > getLocationWaitThreshold(context) ||
                 currentLocation.getProvider() == LocationManager.GPS_PROVIDER) {
             SMSUtil.sendCoordinatesAsSMS(currentLocation, address);
             HandleIncomingSMSService.stopLocationUpdates();
+            currentLocation = null;
         }
+    }
+
+    int getLocationWaitThreshold(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int timeout = sharedPreferences.getInt("gps_timeout_title", 60);
+        return timeout * 1000;
     }
 }
