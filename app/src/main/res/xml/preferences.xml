@@ -11,6 +11,11 @@
         android:dialogTitle="@string/keyword_title"
         android:dialogMessage="@string/keyword_summary"
         android:defaultValue="findme"/>
+    <CheckBoxPreference
+        android:key="ignore_case"
+        android:title="@string/ignore_case_title"
+        android:summary="@string/ignore_case_summary"
+        android:defaultValue="true"/>
     <ListPreference
         android:title="@string/gps_timeout_title"
         android:summary="@string/gps_timeout_summary"

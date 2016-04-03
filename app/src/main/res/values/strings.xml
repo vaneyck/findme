@@ -6,4 +6,6 @@
     <string name="keyword_summary">A request for the phone\'s GPS coordinates is only triggered if the incoming SMS contains this keyword. It should therefore be something unique e.g 5716, wr23dv</string>
     <string name="gps_timeout_title">GPS timeout</string>
     <string name="gps_timeout_summary">GPS timeout is the maximum time in seconds FindMe will wait for GPS coordinates after which it wil default to coordinates supplied by the mobile network.</string>
+    <string name="ignore_case_title">Ignore case</string>
+    <string name="ignore_case_summary">When checking if SMS contents contains keyword, ignore case differences</string>
 </resources>

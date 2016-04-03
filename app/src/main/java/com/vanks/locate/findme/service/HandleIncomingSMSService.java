@@ -35,7 +35,12 @@ public class HandleIncomingSMSService extends IntentService implements
             initialiseGoogleApiClient();
             phoneNumber = intent.getStringExtra(ExtraUtil.ADDRESS);
             String body = intent.getStringExtra(ExtraUtil.BODY).trim();
-            if(body.contains(getKeyword(this))) {
+            String keyword = getKeyword(this);
+            if(ignoreCase(this)) {
+                body = body.toLowerCase();
+                keyword = keyword.toLowerCase();
+            }
+            if(body.contains(keyword)) {
                 Log.i(TAG, "Connecting to GoogleApiClient");
                 googleApiClient.connect();
             }
@@ -81,6 +86,11 @@ public class HandleIncomingSMSService extends IntentService implements
     private String getKeyword (Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString("locate_keyword", "findme").trim();
+    }
+
+    private boolean ignoreCase (Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("ignore_case", true);
     }
 
     public static void stopLocationUpdates () {
