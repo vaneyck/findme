@@ -36,7 +36,7 @@ public class LocationReceiver extends BroadcastReceiver {
             }
         }
         long millisecondsSinceLastUpdate = new Date().getTime() - lastLocationUpdate;
-        Log.i(TAG, "millisecondsSinceLastUpdate " + millisecondsSinceLastUpdate);
+        Log.i(TAG, "milliseconds since last location update " + millisecondsSinceLastUpdate);
         if(millisecondsSinceLastUpdate > locationWaitThreshold ||
                 currentLocation.getProvider() == LocationManager.GPS_PROVIDER) {
             SMSUtil.sendCoordinatesAsSMS(currentLocation, address);
