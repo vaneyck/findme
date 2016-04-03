@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
