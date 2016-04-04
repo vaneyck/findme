@@ -11,9 +11,13 @@ public class SMSUtil {
     private static String TAG = "SMSUtil";
 
     public static void sendCoordinatesAsSMS (Location location, String phoneNumber) {
-        SmsManager smsManager = SmsManager.getDefault();
         String message = location.getLatitude() + "," + location.getLongitude();
         Log.i(TAG, "Replying to " + phoneNumber + " with GPS coordinates " + message);
+        sendMessage(phoneNumber, message);
+    }
+
+    public static void sendMessage (String phoneNumber, String message) {
+        SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNumber, null, message, null, null);
     }
 }

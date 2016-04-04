@@ -19,6 +19,7 @@
     <ListPreference
         android:title="@string/gps_timeout_title"
         android:summary="@string/gps_timeout_summary"
+        android:key="gps_timeout"
         android:dialogTitle="@string/gps_timeout_title"
         android:entries="@array/gps_timeout_entries_labels"
         android:entryValues="@array/gps_timeout_entries_values"

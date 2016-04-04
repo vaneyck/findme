@@ -32,15 +32,31 @@ public class LocationReceiver extends BroadcastReceiver {
             currentLocation = location;
             lastLocationUpdate = new Date().getTime();
         } else {
-            if(location.getProvider() == LocationManager.GPS_PROVIDER) {
-                currentLocation = location;
+            if(location != null) {
+                if(location.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
+                    if(location.getAccuracy() < currentLocation.getAccuracy()) {
+                        Log.i(TAG, "Setting currentLocation : " + location);
+                        currentLocation = location;
+                    }
+                }
+                if(location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
+                    Log.i(TAG, "Setting currentLocation : " + location);
+                    currentLocation = location;
+                }
             }
         }
         long millisecondsSinceLastUpdate = new Date().getTime() - lastLocationUpdate;
-        Log.i(TAG, "milliseconds since last location update " + millisecondsSinceLastUpdate);
+        Log.i(TAG, "Milliseconds since last location update " + millisecondsSinceLastUpdate);
+        if(currentLocation == null) {
+            SMSUtil.sendMessage(address, "Could not retrieve coordinates. Try again.");
+            return;
+        }
         if(millisecondsSinceLastUpdate > getLocationWaitThreshold(context) ||
-                currentLocation.getProvider() == LocationManager.GPS_PROVIDER) {
+                currentLocation.getProvider().equals(LocationManager.GPS_PROVIDER)) {
             SMSUtil.sendCoordinatesAsSMS(currentLocation, address);
+            String detailsMessage = "accuracy = " + currentLocation.getAccuracy() + "\n" +
+                    "provider = " + currentLocation.getProvider();
+            SMSUtil.sendMessage(address, detailsMessage);
             HandleIncomingSMSService.stopLocationUpdates();
             currentLocation = null;
         }
@@ -48,7 +64,7 @@ public class LocationReceiver extends BroadcastReceiver {
 
     int getLocationWaitThreshold(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int timeout = sharedPreferences.getInt("gps_timeout_title", 60);
+        int timeout = Integer.parseInt(sharedPreferences.getString("gps_timeout", "60"));
         return timeout * 1000;
     }
 }
