@@ -57,7 +57,7 @@ public class LocationReceiver extends BroadcastReceiver {
             return;
         }
         if(millisecondsSinceLastUpdate > getLocationWaitThreshold(context) ||
-                currentLocation.getProvider().equals(LocationManager.GPS_PROVIDER)) {
+                (currentLocation != null && currentLocation.getProvider().equals(LocationManager.GPS_PROVIDER))) {
             SMSUtil.sendCoordinatesAsSMS(currentLocation, address);
             String detailsMessage = "accuracy = " + currentLocation.getAccuracy() + "\n" +
                     "provider = " + currentLocation.getProvider();
