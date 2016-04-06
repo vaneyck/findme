@@ -60,6 +60,7 @@ public class HandleIncomingSMSService extends IntentService implements
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationIntent);
         } catch (SecurityException se) {
             Log.e(TAG, se.toString());
+            stopLocationUpdates();
         }
     }
 
@@ -94,6 +95,8 @@ public class HandleIncomingSMSService extends IntentService implements
     }
 
     public static void stopLocationUpdates () {
-        locationManager.removeUpdates(locationIntent);
+        if(locationManager != null) {
+            locationManager.removeUpdates(locationIntent);
+        }
     }
 }
