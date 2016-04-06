@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.vanks.locate.findme.constant.ExtraUtil;
 import com.vanks.locate.findme.service.HandleIncomingSMSService;
+import com.vanks.locate.findme.util.NotificationUtil;
 import com.vanks.locate.findme.util.SMSUtil;
 
 import java.util.Date;
@@ -48,8 +49,10 @@ public class LocationReceiver extends BroadcastReceiver {
         long millisecondsSinceLastUpdate = new Date().getTime() - lastLocationUpdate;
         Log.i(TAG, "Milliseconds since last location update " + millisecondsSinceLastUpdate);
         if(currentLocation == null && millisecondsSinceLastUpdate > getLocationWaitThreshold(context)) {
-            SMSUtil.sendMessage(address, "Could not retrieve coordinates. Try again.");
+            String errorMessage = "Could not retrieve coordinates. Try again.";
+            SMSUtil.sendMessage(address, errorMessage);
             HandleIncomingSMSService.stopLocationUpdates();
+            NotificationUtil.createAndShow(context, "FindMe", errorMessage);
             currentLocation = null;
             return;
         }
@@ -59,6 +62,9 @@ public class LocationReceiver extends BroadcastReceiver {
             String detailsMessage = "accuracy = " + currentLocation.getAccuracy() + "\n" +
                     "provider = " + currentLocation.getProvider();
             SMSUtil.sendMessage(address, detailsMessage);
+            String notificationMessage = address + " : " + currentLocation.getLatitude() + ","
+                    + currentLocation.getLongitude();
+            NotificationUtil.createAndShow(context, "FindMe", notificationMessage);
             HandleIncomingSMSService.stopLocationUpdates();
             currentLocation = null;
         }
