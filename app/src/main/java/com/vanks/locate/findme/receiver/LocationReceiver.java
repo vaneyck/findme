@@ -47,8 +47,10 @@ public class LocationReceiver extends BroadcastReceiver {
         }
         long millisecondsSinceLastUpdate = new Date().getTime() - lastLocationUpdate;
         Log.i(TAG, "Milliseconds since last location update " + millisecondsSinceLastUpdate);
-        if(currentLocation == null) {
+        if(currentLocation == null && millisecondsSinceLastUpdate > getLocationWaitThreshold(context)) {
             SMSUtil.sendMessage(address, "Could not retrieve coordinates. Try again.");
+            HandleIncomingSMSService.stopLocationUpdates();
+            currentLocation = null;
             return;
         }
         if(millisecondsSinceLastUpdate > getLocationWaitThreshold(context) ||
