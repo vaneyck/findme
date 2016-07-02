@@ -26,7 +26,7 @@ public class HandleIncomingSMSService extends IntentService implements
     GoogleApiClient googleApiClient;
     static LocationManager locationManager;
     static PendingIntent locationIntent;
-    private String TAG = "HandleIncomingSMSService";
+    private static String TAG = "HandleIncomingSMSService";
     private String phoneNumber;
 
     @Override
@@ -96,6 +96,7 @@ public class HandleIncomingSMSService extends IntentService implements
 
     public static void stopLocationUpdates () {
         if(locationManager != null) {
+            Log.i(TAG, "Stopping location updates");
             locationManager.removeUpdates(locationIntent);
         }
     }
