@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "159850952475",
+    "firebase_url": "https://findme-945d1.firebaseio.com",
+    "project_id": "findme-945d1",
+    "storage_bucket": "findme-945d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159850952475:android:88ee06cbe4f197b1",
+        "android_client_info": {
+          "package_name": "com.vanks.locate.findme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159850952475-l32mfgj0unqr6qeksf5ss1frpi6k711v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzknFjs0hnuoyJ0AnlFpRARVxFDgvT-bk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
