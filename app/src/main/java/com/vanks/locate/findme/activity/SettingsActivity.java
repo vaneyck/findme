@@ -40,20 +40,12 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private void requestForNeededAppPermissions () {
-        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    }, 1);
-        }
-        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{
-                            Manifest.permission.READ_SMS
-                    }, 2);
-        }
-        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.READ_SMS,
                             Manifest.permission.SEND_SMS
-                    }, 3);
+                    }, 1);
         }
     }
 }
