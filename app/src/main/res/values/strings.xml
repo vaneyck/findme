@@ -8,4 +8,8 @@
     <string name="gps_timeout_summary">GPS timeout is the maximum time in seconds FindMe will wait for GPS coordinates after which it wil default to coordinates supplied by the mobile network.</string>
     <string name="ignore_case_title">Ignore case</string>
     <string name="ignore_case_summary">When checking if SMS contents contains keyword, ignore case differences</string>
+    <string name="request_permissions_message">FindMe requires persmissions to read SMS, send SMS and location in order to serve you well. Please grant these permissions to ensure the app funcions as expected. Do you want to grant these permissions?</string>
+    <string name="request_permissions_title">Request Needed Permissions</string>
+    <string name="ok">Yes</string>
+    <string name="cancel">No</string>
 </resources>
